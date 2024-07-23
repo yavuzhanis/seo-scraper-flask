@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wep Page Scraper</title>
+    <link rel="stylesheet" href="{{ url_for('static' , filename='styles.css' )}}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Webpage Information</h1>
+        <form id="urlForm">
+            <label for="urlInput">Enter Url:</label>
+            <input type="text" id="urlInput" name="url" placeholder="https://example.com" required>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="webpageInfo">
+            <div class="page_title">
+                <h4>Page Title : </h4>
+                <p></p>
+            </div>
+            <div class="heading">
+                <h4>Heading : </h4>
+                <p></p>
+            </div>
+            <div class="meta_description">
+                <h4>Meta Description: </h4>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#urlForm').submit(function (event) {
+                event.preventDefault();
+                var url = $('#urlInput').val();
+                $.post('/', { 'url': url }, function (data) {
+                    let h1 = data.h1;
+                    let meta = data.meta_description;
+                    let title = data.title
+                    $('#webpageInfo').addClass('active');
+                    $('#webpageInfo .page_title p').text(title);
+                    $('#webpageInfo .meta_description p').text(meta);
+                    $('#webpageInfo .heading p').text(h1);
+
+                })
+            })
+        });
+    </script>
+</body>
+
+</html>
